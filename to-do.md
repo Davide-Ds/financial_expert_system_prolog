@@ -1,0 +1,5 @@
+-~~loop partner y/n finche non metti y, non accetta n~~
+-~~mettere salario utente dopo lavoro~~
+-per goal successivi al primo esce 1+1+..1 invece che la somma
+-target tra parentesi dopo allocazione
+-goal > 10 anni non dovrebbe comparire tra i goal

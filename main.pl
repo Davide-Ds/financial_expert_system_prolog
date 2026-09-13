@@ -15,11 +15,11 @@ collect_inputs :-
     ask_int('Age',age,18,100),
     ask_choice('Employment 1=permanent 2=temporary 3=none',employment,
                 [1-permanent,2-temporary,3-none]),
-    ask_yes_no('Partner?',partner), partner_inputs,
-    ask_int('Dependents',dependents,0,20),
     ask_money('Personal monthly net income (EUR)',income),
     ask_money('Essential monthly expenses (EUR)',expenses),
     ask_money('Current savings (EUR)',savings),
+    ask_yes_no('Partner?',partner), partner_inputs,
+    ask_int('Dependents',dependents,0,20),
     goals,
     ask_choice('Reaction to >=10% investment loss: 1=sell 2=worried wait 3=calm wait',
                 psychological_risk,[1-sell,2-worried_wait,3-calm_wait]).
@@ -44,13 +44,14 @@ ask_money(L,K) :-
     V is round(N*100)/100, assertz(wm(K,V)).
 ask_money(L,K) :- writeln('Invalid value.'), ask_money(L,K).
 
-ask_yes_no(L,K) :-
-    repeat, format('~w [y/n]: ',[L]), read_line_to_string(user_input,S0),
-    string_lower(S0,S), (S="y";S="yes"), !, assertz(wm(K,yes)).
-ask_yes_no(L,K) :-
-    repeat, format('~w [y/n]: ',[L]), read_line_to_string(user_input,S0),
-    string_lower(S0,S), (S="n";S="no"), !, assertz(wm(K,no)).
-ask_yes_no(L,K) :- writeln('Use y or n.'), ask_yes_no(L,K).
+ask_yes_no(L, K) :-
+	repeat,
+	format('~w [y/n]: ', [L]),
+	read_line_to_string(user_input, S0),
+	string_lower(S0, S),
+	((S = "y"; S = "yes") -> assertz(wm(K, yes)), !;
+	(S = "n"; S = "no") -> assertz(wm(K, no)), !;
+	writeln('Use y or n.'), fail).
 
 ask_choice(L,K,Pairs) :-
     repeat, format('~w: ',[L]), read_line_to_string(user_input,S),
@@ -61,6 +62,7 @@ ask_choice(L,K,P) :- writeln('Invalid choice.'), ask_choice(L,K,P).
 goals :-
     writeln('Future goals: enter 0 as amount to stop.'),
     collect_goals(1,[],G), assertz(wm(goals,G)).
+
 collect_goals(I,A,G) :-
     format('Goal ~w amount (EUR): ',[I]), read_line_to_string(user_input,S),
     catch(number_string(N,S),_,fail), N>=0, !,
@@ -68,7 +70,9 @@ collect_goals(I,A,G) :-
     ; format('Description: '), read_line_to_string(user_input,D),
       ask_int('Years until goal',dummy_year,1,50), retract(wm(dummy_year,Y)),
       V is round(N*100)/100,
-      collect_goals(I+1,[goal(I,D,V,Y)|A],G)).
+      I1 is I + 1,
+      collect_goals(I1,[goal(I,D,V,Y)|A],G)).
+    
 collect_goals(I,A,G) :- writeln('Invalid amount.'), collect_goals(I,A,G).
 
 % ---------------- KNOWLEDGE BASE ----------------
@@ -238,8 +242,7 @@ kb :-
     writeln('P1 target=1 month; P3=goals <=10 years; savings priority P1->P2->P3->P4').
 
 % Non-interactive test:
-% ?- demo(30,permanent,yes,permanent,2500,3000,1500,30000,
-%         [goal(1,'car',6000,3)],calm_wait).
+% ?- demo(30,permanent,yes,permanent,2500,3000,1500,30000,[goal(1,'car',6000,3)],calm_wait).
 demo(A,E,P,PE,PS,I,X,S,G,PR) :-
     reset_system,
     forall(member(K-V,[age-A,employment-E,partner-P,partner_employment-PE,
