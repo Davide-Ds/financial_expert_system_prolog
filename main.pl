@@ -123,7 +123,7 @@ age_score :-
 resilience :-
     wm(employment_score,E), wm(partner_score,P), wm(savings_score,S),
     wm(expense_score,X), wm(family_score,F), wm(age_score,A),
-    V0 is .30*E+.10*P+.25*S+.20*X+.10*F+.05*A,
+    V0 is 0.30*E+0.10*P+0.25*S+0.20*X+0.10*F+0.05*A,
     V is max(0,min(1,V0)), assertz(wm(financial_resilience,V)),
     tr(financial_resilience,V,'Objective financial situation',
        'weighted employment/partner/savings/expenses/family/age').
@@ -136,7 +136,7 @@ psychology :-
 
 combined :-
     wm(financial_resilience,F), wm(risk_tolerance,P),
-    V is .55*F+.45*P, assertz(wm(risk_index,V)),
+    V is 0.55*F+0.45*P, assertz(wm(risk_index,V)),
     tr(risk_index,V,'Financial resilience and psychological tolerance',
        '0.55*resilience + 0.45*risk_tolerance').
 
@@ -148,7 +148,7 @@ surplus :-
 
 emergency :-
     wm(financial_resilience,F),
-    (F<.30->M=12;F<.50->M=9;F<.70->M=6;F<.85->M=4;M=3),
+    (F<0.30->M=12;F<0.50->M=9;F<0.70->M=6;F<0.85->M=4;M=3),
     assertz(wm(emergency_months,M)),
     tr(emergency_months,M,'Financial resilience','3/4/6/9/12 month heuristic bands').
 
