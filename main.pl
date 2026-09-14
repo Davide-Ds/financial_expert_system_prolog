@@ -68,11 +68,11 @@ collect_goals(I,A,G) :-
     catch(number_string(N,S),_,fail), N>=0, !,
     (N=:=0 -> reverse(A,G)
     ; format('Description: '), read_line_to_string(user_input,D),
-      ask_int('Years until goal',dummy_year,1,50), retract(wm(dummy_year,Y)),
+      ask_int('Years until goal (max 10) ',dummy_year,1,10), retract(wm(dummy_year,Y)),
       V is round(N*100)/100,
       I1 is I + 1,
       collect_goals(I1,[goal(I,D,V,Y)|A],G)).
-    
+
 collect_goals(I,A,G) :- writeln('Invalid amount.'), collect_goals(I,A,G).
 
 % ---------------- KNOWLEDGE BASE ----------------
