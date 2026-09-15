@@ -183,9 +183,9 @@ result :-
     format('Monthly surplus: EUR ~2f~n',[S]),
     format('Emergency target: ~w months~n',[M]),nl,
     writeln('CURRENT SAVINGS ALLOCATION'),
-    format('Pillar 1 ordinary liquidity: EUR ~2f (target ~2f)~n',[A1,T1]),
-    format('Pillar 2 emergency fund:     EUR ~2f (target ~2f)~n',[A2,T2]),
-    format('Pillar 3 future goals:       EUR ~2f (target ~2f)~n',[A3,T3]),
+    format('Pillar 1 ordinary liquidity: EUR ~2f (recommended target ~2f)~n',[A1,T1]), % allocation equal target if there is enough savings
+    format('Pillar 2 emergency fund:     EUR ~2f (recommended target ~2f)~n',[A2,T2]),
+    format('Pillar 3 future goals:       EUR ~2f (recommended target ~2f)~n',[A3,T3]),
     format('Pillar 4 long term:          EUR ~2f~n',[A4]),nl,
     writeln('Pillar 3 goals (<=10 years):'), show_goals.
 
