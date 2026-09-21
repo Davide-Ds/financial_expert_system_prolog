@@ -4,4 +4,4 @@
 -~~target tra parentesi dopo allocazione~~
 -~~goal > 10 anni non dovrebbe comparire tra i goal~~
 -~~dividere in moduli~~
--numeri per scegliere why explanation
+-~~numeri e parole per scegliere why explanation~~
