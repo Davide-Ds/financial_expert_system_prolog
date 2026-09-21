@@ -19,11 +19,7 @@ explanation_menu :-
 
     read_line_to_string(user_input, S),
 
-    (
-        catch(number_string(N, S), _, fail)
-    ->
-        explanation_choice(N)
-    ;
+    (catch(number_string(N, S), _, fail)->explanation_choice(N);
         writeln('Invalid choice.'),
         explanation_menu
     ).
@@ -51,84 +47,102 @@ explanation_choice(_) :-
 % =========================================================
 
 why_menu :-
-    nl,
-    writeln('Available items:'),
-    writeln('age'),
-    writeln('employment'),
-    writeln('partner'),
-    writeln('partner_employment'),
-    writeln('partner_salary'),
-    writeln('dependents'),
-    writeln('income'),
-    writeln('expenses'),
-    writeln('savings'),
-    writeln('goals'),
-    writeln('psychological_risk'),
+	nl,
+	writeln('=== WHY ==='),
+	writeln('1  = age'),
+	writeln('2  = employment'),
+	writeln('3  = partner'),
+	writeln('4  = partner_employment'),
+	writeln('5  = partner_salary'),
+	writeln('6  = dependents'),
+	writeln('7  = income'),
+	writeln('8  = expenses'),
+	writeln('9  = savings'),
+	writeln('10 = goals'),
+	writeln('11 = psychological_risk'),
+	writeln('0  = Back'),
+	format('Item: '),
+	read_line_to_string(user_input, Input),
+	string_lower(Input, LowerInput),
+	(catch(number_string(N, LowerInput),_,fail) -> why(N); why(LowerInput)).
 
-    format('Item (or 0): '),
-    read_line_to_string(user_input, Item),
 
-    why(Item).
+% ---------------- NUMERIC CHOICES ----------------
 
-why("0").
+why(0).
+
+why(1) :-
+	why("age").
+
+why(2) :-
+	why("employment").
+
+why(3) :-
+	why("partner").
+
+why(4) :-
+	why("partner_employment").
+
+why(5) :-
+	why("partner_salary").
+
+why(6) :-
+	why("dependents").
+
+why(7) :-
+	why("income").
+
+why(8) :-
+	why("expenses").
+
+why(9) :-
+	why("savings").
+
+why(10) :-
+	why("goals").
+
+why(11) :-
+	why("psychological_risk").
+
+
+% ---------------- TEXT CHOICES ----------------
 
 why("age") :-
-    writeln(
-        'Provides weak contextual information for financial resilience.'
-    ).
+	writeln('Age provides weak contextual information for financial resilience.').
 
 why("employment") :-
-    writeln(
-        'Employment stability affects resilience to income shocks.'
-    ).
+	writeln('Employment stability affects resilience to income shocks.').
 
 why("partner") :-
-    writeln(
-        'Determines whether partner employment can provide contextual support.'
-    ).
+	writeln('Determines whether partner employment can provide contextual support.').
 
 why("partner_employment") :-
-    writeln(
-        'Partner employment stability affects contextual financial support.'
-    ).
+	writeln('Partner employment stability affects contextual financial support.').
 
 why("partner_salary") :-
-    writeln(
-        'Represents household support; it is NOT added to personal income.'
-    ).
+	writeln('Partner salary represents household support; it is NOT added to personal income.').
 
 why("dependents") :-
-    writeln(
-        'Dependents represent recurring family obligations.'
-    ).
+	writeln('Dependents represent recurring family obligations.').
 
 why("income") :-
-    writeln(
-        'Needed for surplus and expense-resilience calculations.'
-    ).
+	writeln('Income is needed for surplus and expense-resilience calculations.').
 
 why("expenses") :-
-    writeln(
-        'Defines liquidity and emergency targets and is subtracted from income.'
-    ).
+	writeln('Expenses define liquidity and emergency targets and are subtracted from income.').
 
 why("savings") :-
-    writeln(
-        'Determines current available allocation and savings coverage.'
-    ).
+	writeln('Savings determine the current available allocation and savings coverage.').
 
 why("goals") :-
-    writeln(
-        'Future goals determine the Pillar 3 recommended target.'
-    ).
+	writeln('Future goals determine the Pillar 3 recommended target.').
 
 why("psychological_risk") :-
-    writeln(
-        'Estimates psychological tolerance for investment losses.'
-    ).
+	writeln('Psychological risk estimates tolerance for investment losses.').
 
 why(_) :-
-    writeln('No WHY explanation registered.').
+	writeln('Invalid WHY choice.'),
+	why_menu.
 
 % =========================================================
 % HOW

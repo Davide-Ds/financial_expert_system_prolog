@@ -32,15 +32,10 @@ banner :-
 % =========================================================
 
 collect_inputs :-
-    ask_int(
-        'Age',
-        age,
-        18,
-        100
-    ),
+    ask_int('Age', age, 18, 100),
 
     ask_choice(
-        'Employment 1=permanent 2=temporary 3=none',
+        'Employment 1=permanent, 2=temporary, 3=none',
         employment,
         [
             1-permanent,
@@ -110,7 +105,7 @@ partner_inputs :-
 
 partner_inputs :-
     ask_choice(
-        'Partner employment 1=permanent 2=temporary 3=none',
+        'Partner employment 1=permanent, 2=temporary, 3=none',
         partner_employment,
         [
             1-permanent,
