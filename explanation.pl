@@ -1,232 +1,98 @@
-:- module(explanation, [
-    explanation_menu/0
-]).
-
+:- module(explanation, [explanation_menu/0]).
 :- use_module(inference_engine).
 :- use_module(knowledge_base).
+
 
 % =========================================================
 % EXPLANATION MODULE
 % =========================================================
 
-explanation_menu :-
-    nl,
-    writeln('Explanation:'),
-    writeln('1 = WHY'),
-    writeln('2 = HOW'),
-    writeln('3 = Knowledge Base'),
-    writeln('0 = Exit'),
+explanation_menu :- nl, writeln('Explanation:'), writeln('1 = WHY'), writeln('2 = HOW'),
+                    writeln('3 = Knowledge Base'), writeln('0 = Exit'),
+                    read_line_to_string(user_input, S),
+                    (catch(number_string(N, S), _, fail) -> explanation_choice(N);
+                     writeln('Invalid choice.'), explanation_menu).
 
-    read_line_to_string(user_input, S),
-
-    (catch(number_string(N, S), _, fail)->explanation_choice(N);
-        writeln('Invalid choice.'),
-        explanation_menu
-    ).
-
-explanation_choice(1) :-
-    why_menu,
-    explanation_menu.
-
-explanation_choice(2) :-
-    how_menu,
-    explanation_menu.
-
-explanation_choice(3) :-
-    show_knowledge_base,
-    explanation_menu.
-
+explanation_choice(1) :- why_menu, explanation_menu.
+explanation_choice(2) :- how_menu, explanation_menu.
+explanation_choice(3) :- show_knowledge_base, explanation_menu.
 explanation_choice(0).
+explanation_choice(_) :- writeln('Invalid choice.'), explanation_menu.
 
-explanation_choice(_) :-
-    writeln('Invalid choice.'),
-    explanation_menu.
 
 % =========================================================
 % WHY
 % =========================================================
-
-why_menu :-
-	nl,
-	writeln('=== WHY ==='),
-	writeln('1  = age'),
-	writeln('2  = employment'),
-	writeln('3  = partner'),
-	writeln('4  = partner_employment'),
-	writeln('5  = partner_salary'),
-	writeln('6  = dependents'),
-	writeln('7  = income'),
-	writeln('8  = expenses'),
-	writeln('9  = savings'),
-	writeln('10 = goals'),
-	writeln('11 = psychological_risk'),
-	writeln('0  = Back'),
-	format('Item: '),
-	read_line_to_string(user_input, Input),
-	string_lower(Input, LowerInput),
-	(catch(number_string(N, LowerInput),_,fail) -> why(N); why(LowerInput)).
+why_menu :- nl, writeln('=== WHY ==='), writeln('1  = age'), writeln('2  = employment'),
+	        writeln('3  = partner'), writeln('4  = partner_employment'),
+	        writeln('5  = partner_salary'), writeln('6  = dependents'),
+	        writeln('7  = income'), writeln('8  = expenses'), writeln('9  = savings'),
+	        writeln('10 = goals'), writeln('11 = psychological_risk'), 
+            writeln('0  = Back'), format('Item: '), read_line_to_string(user_input, Input),
+	        string_lower(Input, LowerInput),
+	        (catch(number_string(N, LowerInput),_,fail) -> why(N); why(LowerInput)).
 
 
 % ---------------- NUMERIC CHOICES ----------------
-
 why(0).
-
-why(1) :-
-	why("age").
-
-why(2) :-
-	why("employment").
-
-why(3) :-
-	why("partner").
-
-why(4) :-
-	why("partner_employment").
-
-why(5) :-
-	why("partner_salary").
-
-why(6) :-
-	why("dependents").
-
-why(7) :-
-	why("income").
-
-why(8) :-
-	why("expenses").
-
-why(9) :-
-	why("savings").
-
-why(10) :-
-	why("goals").
-
-why(11) :-
-	why("psychological_risk").
+why(1) :- why("age").
+why(2) :- why("employment").
+why(3) :- why("partner").
+why(4) :- why("partner_employment").
+why(5) :- why("partner_salary").
+why(6) :- why("dependents").
+why(7) :- why("income").
+why(8) :- why("expenses").
+why(9) :- why("savings").
+why(10) :- why("goals").
+why(11) :- why("psychological_risk").
 
 
 % ---------------- TEXT CHOICES ----------------
+why("age") :- writeln('Age provides weak contextual information for financial resilience.').
+why("employment") :- writeln('Employment stability affects resilience to income shocks.').
+why("partner") :- writeln('Determines whether partner employment can provide contextual support.').
+why("partner_employment") :- writeln('Partner employment stability affects contextual financial support.').
+why("partner_salary") :- writeln('Partner salary represents household support; it is NOT added to personal income.').
+why("dependents") :- writeln('Dependents represent recurring family obligations.').
+why("income") :- writeln('Income is needed for surplus and expense-resilience calculations.').
+why("expenses") :- writeln('Expenses define liquidity and emergency targets and are subtracted from income.').
+why("savings") :- writeln('Savings determine the current available allocation and savings coverage.').
+why("goals") :- writeln('Future goals determine the Pillar 3 recommended target.').
+why("psychological_risk") :- writeln('Psychological risk estimates tolerance for investment losses.').
+why(_) :- writeln('Invalid WHY choice.'), why_menu.
 
-why("age") :-
-	writeln('Age provides weak contextual information for financial resilience.').
-
-why("employment") :-
-	writeln('Employment stability affects resilience to income shocks.').
-
-why("partner") :-
-	writeln('Determines whether partner employment can provide contextual support.').
-
-why("partner_employment") :-
-	writeln('Partner employment stability affects contextual financial support.').
-
-why("partner_salary") :-
-	writeln('Partner salary represents household support; it is NOT added to personal income.').
-
-why("dependents") :-
-	writeln('Dependents represent recurring family obligations.').
-
-why("income") :-
-	writeln('Income is needed for surplus and expense-resilience calculations.').
-
-why("expenses") :-
-	writeln('Expenses define liquidity and emergency targets and are subtracted from income.').
-
-why("savings") :-
-	writeln('Savings determine the current available allocation and savings coverage.').
-
-why("goals") :-
-	writeln('Future goals determine the Pillar 3 recommended target.').
-
-why("psychological_risk") :-
-	writeln('Psychological risk estimates tolerance for investment losses.').
-
-why(_) :-
-	writeln('Invalid WHY choice.'),
-	why_menu.
 
 % =========================================================
 % HOW
 % =========================================================
+how_menu :- nl, writeln('=== HOW - INFERENCE TRACE ==='),
+            forall(trace_step(Item, Value, Why, How),
+                   (format('~n- ~w = ~w~n', [Item, Value]), format('  WHY: ~w~n', [Why]), 
+                    format('  HOW: ~w~n', [How]))
+            ).
 
-how_menu :-
-    nl,
-    writeln('=== HOW - INFERENCE TRACE ==='),
-
-    forall(
-        trace_step(Item, Value, Why, How),
-        (
-            format('~n- ~w = ~w~n', [Item, Value]),
-            format('  WHY: ~w~n', [Why]),
-            format('  HOW: ~w~n', [How])
-        )
-    ).
 
 % =========================================================
 % KNOWLEDGE BASE PRESENTATION
 % =========================================================
-
-show_knowledge_base :-
-    nl,
-    writeln('=== KNOWLEDGE BASE ==='),
-
-    employment_score(permanent, Permanent),
-    employment_score(temporary, Temporary),
-    employment_score(none, None),
-
-    format(
-        'Employment: permanent=~2f, temporary=~2f, none=~2f~n',
-        [Permanent, Temporary, None]
-    ),
-
-    partner_score(yes, permanent, PartnerPermanent),
-    partner_score(yes, temporary, PartnerTemporary),
-
-    format(
-        'Partner support: permanent=~2f, temporary=~2f, otherwise=0~n',
-        [PartnerPermanent, PartnerTemporary]
-    ),
-
-    psych_score(sell, Sell),
-    psych_score(worried_wait, Worried),
-    psych_score(calm_wait, Calm),
-
-    format(
-        'Psychology: sell=~2f, worried_wait=~2f, calm_wait=~2f~n',
-        [Sell, Worried, Calm]
-    ),
-
-    resilience_weights(
-        WE,
-        WP,
-        WS,
-        WX,
-        WF,
-        WA
-    ),
-
-    format(
-        'Resilience weights: employment=~2f partner=~2f savings=~2f expenses=~2f family=~2f age=~2f~n',
-        [WE, WP, WS, WX, WF, WA]
-    ),
-
-    combined_weights(WResilience, WRisk),
-
-    format(
-        'Combined index: resilience=~2f, psychology=~2f~n',
-        [WResilience, WRisk]
-    ),
-
-    goal_horizon_max(MaxYears),
-
-    format(
-        'Pillar 3 maximum goal horizon: ~w years~n',
-        [MaxYears]
-    ),
-
-    writeln(
-        'Emergency fund: 12/9/6/4/3 months according to resilience.'
-    ),
-
-    writeln(
-        'Allocation priority: Pillar 1 -> Pillar 2 -> Pillar 3 -> Pillar 4.'
-    ).
+show_knowledge_base :- nl, writeln('=== KNOWLEDGE BASE ==='),
+                       employment_score(permanent, Permanent),
+                       employment_score(temporary, Temporary),
+                       employment_score(none, None),
+                       format('Employment: permanent=~2f, temporary=~2f, none=~2f~n', [Permanent, Temporary, None]),
+                       partner_score(yes, permanent, PartnerPermanent),
+                       partner_score(yes, temporary, PartnerTemporary),
+                       format('Partner support: permanent=~2f, temporary=~2f, otherwise=0~n', [PartnerPermanent, PartnerTemporary]),
+                       psych_score(sell, Sell), 
+                       psych_score(worried_wait, Worried), 
+                       psych_score(calm_wait, Calm),
+                       format('Psychology: sell=~2f, worried_wait=~2f, calm_wait=~2f~n', [Sell, Worried, Calm]),
+                       resilience_weights(WE, WP, WS, WX, WF, WA),
+                       format('Resilience weights: employment=~2f partner=~2f savings=~2f expenses=~2f family=~2f age=~2f~n', [WE, WP, WS, WX, WF, WA]),
+                       combined_weights(WResilience, WRisk),
+                       format('Combined index: resilience=~2f, psychology=~2f~n',[WResilience, WRisk]),
+                       goal_horizon_max(MaxYears), 
+                       format('Pillar 3 maximum goal horizon: ~w years~n', [MaxYears]),
+                       writeln('Emergency fund: 12/9/6/4/3 months according to resilience.'),
+                       writeln('Allocation priority: Pillar 1 -> Pillar 2 -> Pillar 3 -> Pillar 4.').

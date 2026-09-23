@@ -1,13 +1,6 @@
-:- module(knowledge_base, [
-    employment_score/2,
-    partner_score/3,
-    psych_score/2,
-    age_score/2,
-    emergency_months/2,
-    resilience_weights/6,
-    combined_weights/2,
-    goal_horizon_max/1
-]).
+:- module(knowledge_base, [employment_score/2, partner_score/3, psych_score/2, age_score/2,
+                           emergency_months/2, resilience_weights/6, combined_weights/2, 
+                           goal_horizon_max/1]).
 
 % =========================================================
 % KNOWLEDGE BASE
