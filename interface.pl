@@ -1,4 +1,4 @@
-:- module(interface, [main/0, demo/10]).
+:- module(interface, [main/0, demo/0]).
 :- use_module(inference_engine).
 :- use_module(knowledge_base).
 :- use_module(explanation).
@@ -16,7 +16,7 @@ banner :- nl, writeln('=== FINANCIAL EXPERT SYSTEM ==='),
 % =========================================================
 % INPUT
 % =========================================================
-collect_inputs :- ask_int('Age', age, 18, 100),
+collect_inputs :- ask_int('Age', age, 18, 150),
                   ask_choice('Employment 1=permanent, 2=temporary, 3=none', employment,
                              [1-permanent, 2-temporary, 3-none]),
                   ask_money('Personal monthly net income (EUR)', income),
@@ -151,16 +151,26 @@ show_goals :- get_fact(goals,Goals),
 % =========================================================
 % NON-INTERACTIVE TEST
 % =========================================================
-demo(Age,Employment,Partner,PartnerEmployment,PartnerSalary,Income,Expenses,Savings,Goals,
-    PsychologicalRisk) :- reset_system, put_fact(age, Age), 
-                          put_fact(employment, Employment),
-                          put_fact(partner, Partner),
-                          put_fact(partner_employment, PartnerEmployment),
-                          put_fact(partner_salary, PartnerSalary),
-                          put_fact(dependents, 0),
-                          put_fact(income, Income),
-                          put_fact(expenses,Expenses),
-                          put_fact(savings, Savings),
-                          put_fact(goals, Goals),
-                          put_fact(psychological_risk, PsychologicalRisk),
-                          infer, result.
+demo :- reset_system, put_fact(age, 26), 
+        put_fact(employment, temporary),
+        put_fact(partner, no),
+        put_fact(partner_employment, none),
+        put_fact(partner_salary, 0),
+        put_fact(dependents, 0),
+        put_fact(income, 1800),
+        put_fact(expenses,1300),
+        put_fact(savings, 5000),
+        put_fact(goals, [goal(1, "Car", 10000, 2)]),
+        put_fact(psychological_risk, worried_wait),
+        writeln('=== DEMO INPUT ==='),
+        writeln('Age: 26'),
+        writeln('Employment: temporary'),
+        writeln('Partner: no'),
+        writeln('Partner employment: none'),
+        writeln('Partner monthly net income: EUR 0'),
+        writeln('Personal monthly net income: EUR 1800'),
+        writeln('Essential monthly expenses: EUR 1300'),
+        writeln('Current savings: EUR 5000'),
+        writeln('Future goals: [goal(1, "Car", 10000, 2)]'),
+        writeln('Psychological risk: worried_wait'),
+        infer, result.

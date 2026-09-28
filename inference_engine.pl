@@ -41,20 +41,24 @@ partner :- wm(partner, Partner), wm(partner_employment, PartnerEmployment),
 % ---------------------------------------------------------
 % Savings coverage
 % ---------------------------------------------------------
-savings_score :- wm(savings, Savings), wm(expenses, Expenses), Expenses > 0,
-                 Months is min(12, Savings / Expenses), Score is min(1.0, Months / 12),
-                 assertz(wm(savings_score, Score)), 
-                 tr(savings_score, Score, 'Savings coverage', 'min(1, months covered / 12)').
-
+savings_score :- wm(savings, Savings), wm(expenses, Expenses),
+                 (Expenses =< 0 -> Score = 1.0,
+                   How = 'expenses <= 0, therefore savings coverage is maximal';
+                   Months is min(12, Savings/Expenses), Score is min(1.0, Months/12),
+                   How = 'min(1, months covered / 12)'),
+                 assertz(wm(savings_score, Score)),
+                 tr(savings_score, Score, 'Savings coverage', How).
 
 % ---------------------------------------------------------
 % Expense resilience
 % ---------------------------------------------------------
-expense_score :- wm(income, Income), wm(expenses, Expenses), Income > 0,
-                 Score is 1 - min(1, Expenses / Income),
+expense_score :- wm(income, Income), wm(expenses, Expenses),
+                 (Income =< 0 -> Score = 0.0, 
+                   How = 'income <= 0, therefore expense resilience = 0';
+                   Score is 1 - min(1, Expenses/Income), 
+                   How = '1 - min(1, expenses / income)'),
                  assertz(wm(expense_score, Score)),
-                 tr(expense_score, Score, 'Essential expenses versus personal income', '1 - min(1, expenses / income)').
-
+                 tr(expense_score, Score, 'Essential expenses versus personal income', How).
 
 % ---------------------------------------------------------
 % Family
