@@ -3,16 +3,14 @@
 ## Expert-system correspondence
 The course material defines a functional schema with Knowledge Base,
 Inference Engine, User Interface and Working Memory, and describes an
-explanation module for WHY and HOW. This project implements those concepts
-directly in Prolog.
+explanation module for WHY and HOW. This project implements those concepts directly in Prolog.
 
 ## Working Memory
 Case-specific facts use `wm(Key,Value)`.
 
 ## Knowledge Base
 Rules encode employment stability, partner support, savings coverage,
-expense resilience, family burden, age context, psychological tolerance,
-resilience weights, emergency-fund thresholds and four-pillar policy.
+expense resilience, family burden, age context, psychological tolerance, resilience weights, emergency-fund thresholds and four-pillar policy.
 
 ## Inference
 Financial resilience is a weighted heuristic:
@@ -39,6 +37,4 @@ The system can answer WHY an input is relevant and HOW intermediate
 conclusions were derived through a stored inference trace.
 
 ## Limitations
-The score is a heuristic index, not a probability or validated financial
-risk measure. The system does not forecast returns, inflation, taxes or
-optimize individual financial instruments.
+The score is a heuristic index, not a probability or validated financial risk measure. The system does not forecast returns, inflation, taxes or optimize individual financial instruments.

@@ -6,3 +6,9 @@
 -~~dividere in moduli~~
 -~~numeri e parole per scegliere why explanation~~
 -~~formattare codice~~
+-~~Vedere se nome surplus è adeguato~~ 
+- Vedere come viene gestito il surplus mensile. Dovrebbe essere gestito come i risparmi allocandolo in ordine su P1, P2, P3, P4. Se i primi 3 sono già sistemati dai risparmi allora tutto sul 4.
+- Testare casi limite, muovendo lo 0 tra entrate, costi fissi e risparmi.
+- Valutare i pesi del calcolo del profilo di rischio 
+- Dare spiegazioni sulle varie allocazioni es.lo stipendio è considerato nei risparmi, perché il surplus è allocato in un certo modo ecc.
+- Fare un modulo per suggerire degli strumenti finanziari da usare per i vari pilastri. Es.conti remunerati, obbligazioni statali, ETF azionari ecc.

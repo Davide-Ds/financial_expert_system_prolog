@@ -8,8 +8,7 @@ then:
     ?- main.
 
 Architecture:
-User Interface -> Working Memory -> Inference Engine -> Knowledge Base
-                                      -> Explanation module
+User Interface -> Working Memory -> Inference Engine -> Knowledge Base -> Explanation module
 
 Inputs:
 age, employment, partner + partner employment/salary, dependents,
@@ -41,7 +40,7 @@ demo(
 ).
 ```
 
-Scenario 1 — Elevata disponibilità
+-Scenario 1 — Elevata disponibilità
 
 Reddito stabile, risparmi sufficienti e buona tolleranza psicologica al rischio.
 
@@ -52,7 +51,8 @@ demo(30, permanent, yes, permanent, 2000,
 
 Verifica che il sistema assegni il capitale residuo al Pilastro 4 dopo aver soddisfatto i primi tre.
 
-Scenario 2 — Risparmi insufficienti
+
+-Scenario 2 — Risparmi insufficienti
 Lavoro a tempo determinato, nessun partner e un acquisto futuro.
 
 demo(26, temporary, no, none, 0,
@@ -63,7 +63,7 @@ demo(26, temporary, no, none, 0,
 Verifica la differenza tra allocation e recommended target e che il Pilastro 4 rimanga vuoto.
 
 
-Scenario 3 — Più obiettivi futuri
+-Scenario 3 — Più obiettivi futuri
 Reddito stabile, tre acquisti programmati e risparmi consistenti.
 
 demo(35, permanent, yes, temporary, 1500,
