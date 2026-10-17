@@ -18,7 +18,7 @@ get_fact(Key, Value) :- wm(Key, Value).
 
 infer :- employment, partner, savings_score, expense_score, family_score,
          calculate_age_score, resilience, psychology, combined, surplus,
-         emergency, allocation.
+         emergency, allocation, monthly_surplus_allocation.
 
 
 % ---------------------------------------------------------
@@ -142,7 +142,7 @@ goal_total(Total) :- wm(goals, Goals), goal_horizon_max(MaxYears),
 
 
 % ---------------------------------------------------------
-% Four-pillar allocation
+% Four-pillar allocation of savings
 % ---------------------------------------------------------
 allocation :- wm(expenses, Expenses), wm(emergency_months, EmergencyMonths),
               wm(savings, Savings), goal_total(GoalTotal),
@@ -155,6 +155,30 @@ allocation :- wm(expenses, Expenses), wm(emergency_months, EmergencyMonths),
               assertz(wm(allocations, allocation(Allocation1, Allocation2, Allocation3, Allocation4))),
               tr(allocations, allocation(Allocation1, Allocation2, Allocation3, Allocation4),
                  'Four-pillar allocation', 'current savings: P1 -> P2 -> P3 -> P4').
+
+
+% =========================================================
+% NEXT MONTH SURPLUS ALLOCATION
+% =========================================================
+monthly_surplus_allocation :- wm(monthly_surplus, MonthlySurplus),
+                            % Targets and allocations from current savings
+                              wm(targets, targets(T1, T2, T3)),
+                              wm(allocations, allocation(A1, A2, A3, _A4)),
+                              % Remaining amounts needed to reach each target
+                              Gap1 is max(0, T1 - A1), Gap2 is max(0, T2 - A2), Gap3 is max(0, T3 - A3),
+                              % Allocate next month's available surplus
+                              M1 is min(MonthlySurplus, Gap1), Remaining1 is MonthlySurplus - M1,
+                              M2 is min(Remaining1, Gap2), Remaining2 is Remaining1 - M2,
+                              M3 is min(Remaining2, Gap3), Remaining3 is Remaining2 - M3,
+                              M4 is max(0, Remaining3),
+                              % Store projected monthly allocation
+                              assertz(wm(monthly_allocations, allocation(M1, M2, M3, M4))),
+                              % Store any remaining target gaps after next month
+                              NewGap1 is max(0, Gap1 - M1), NewGap2 is max(0, Gap2 - M2), NewGap3 is max(0, Gap3 - M3),
+                              assertz(wm(remaining_gaps, gaps(NewGap1, NewGap2, NewGap3))),
+                              tr(monthly_allocations, allocation(M1, M2, M3, M4),
+                                'Projected allocation of next month cash flow surplus',
+                                'Fill unmet targets in priority order: P1 -> P2 -> P3 -> P4').
 
 
 % =========================================================

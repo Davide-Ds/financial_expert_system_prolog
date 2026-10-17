@@ -6,7 +6,6 @@
 % =========================================================
 % EXPLANATION MODULE
 % =========================================================
-
 explanation_menu :- nl, writeln('Explanation:'), writeln('1 = WHY'), writeln('2 = HOW'),
                     writeln('3 = Knowledge Base'), writeln('0 = Exit'),
                     read_line_to_string(user_input, S),
@@ -28,7 +27,7 @@ why_menu :- nl, writeln('=== WHY ==='), writeln('1  = age'), writeln('2  = emplo
 	        writeln('5  = partner_salary'), writeln('6  = dependents'),
 	        writeln('7  = income'), writeln('8  = expenses'), writeln('9  = savings'),
 	        writeln('10 = goals'), writeln('11 = psychological_risk'), 
-            writeln('0  = Back'), format('Item: '), read_line_to_string(user_input, Input),
+                writeln('0  = Back'), format('Item: '), read_line_to_string(user_input, Input),
 	        string_lower(Input, LowerInput),
 	        (catch(number_string(N, LowerInput),_,fail) -> why(N); why(LowerInput)).
 
@@ -70,7 +69,7 @@ how_menu :- nl, writeln('=== HOW - INFERENCE TRACE ==='),
             forall(trace_step(Item, Value, Why, How),
                    (format('~n- ~w = ~w~n', [Item, Value]), format('  WHY: ~w~n', [Why]), 
                     format('  HOW: ~w~n', [How]))
-            ).
+                  ).
 
 
 % =========================================================

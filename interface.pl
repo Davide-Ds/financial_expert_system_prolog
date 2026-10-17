@@ -118,7 +118,7 @@ ask_goal_years(Years) :- goal_horizon_max(MaxYears), repeat,
 
 
 % =========================================================
-% OUTPUT / PRESENTATION
+% FINAL OUTPUT
 % =========================================================
 result :- get_fact(financial_resilience, FinancialResilience),
           get_fact(risk_tolerance, RiskTolerance),
@@ -138,7 +138,7 @@ result :- get_fact(financial_resilience, FinancialResilience),
           format('Pillar 2 emergency fund:     EUR ~2f (recommended target ~2f)~n', [Allocation2, Target2]),
           format('Pillar 3 future goals:       EUR ~2f (recommended target ~2f)~n', [Allocation3, Target3]),
           format('Pillar 4 long term:          EUR ~2f~n', [Allocation4]), nl,
-          writeln('Pillar 3 goals (<=10 years):'), show_goals.
+          writeln('Pillar 3 goals (<=10 years):'), show_goals, show_monthly_allocation.
 
 show_goals :- get_fact(goals,Goals),
               (Goals = [] -> writeln('  None.') ;
@@ -146,6 +146,26 @@ show_goals :- get_fact(goals,Goals),
                       format('  - ~w: EUR ~2f in ~w years~n',[Description, Amount, Years])
                       )
               ).
+
+
+% =========================================================
+% NEXT MONTH SURPLUS RESULTS
+% =========================================================
+show_monthly_allocation :- get_fact(monthly_surplus, Surplus),
+                           get_fact(monthly_allocations, allocation(P1, P2, P3, P4)),
+                           get_fact(remaining_gaps, gaps(G1, G2, G3)), nl,
+                           writeln('=== NEXT MONTH SURPLUS ALLOCATION ==='),
+                           format('Expected monthly cash flow surplus: EUR ~2f~n', [Surplus]), nl,
+                           format('Pillar 1 - Liquidity:       EUR ~2f~n', [P1]),
+                           format('Pillar 2 - Emergency fund:  EUR ~2f~n', [P2]),
+                           format('Pillar 3 - Future goals:    EUR ~2f~n', [P3]),
+                           format('Pillar 4 - Long-term:       EUR ~2f~n', [P4]), nl,
+                           writeln('Remaining target gaps after next month:'),
+                           format('Pillar 1: EUR ~2f~n', [G1]),
+                           format('Pillar 2: EUR ~2f~n', [G2]),
+                           format('Pillar 3: EUR ~2f~n', [G3]), nl,
+                           writeln('Note: This is a projection for the next month.'),
+                           writeln('Future monthly allocations must be recalculated as available savings, expenses and goals change.').
 
 
 % =========================================================
