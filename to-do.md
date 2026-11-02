@@ -11,5 +11,5 @@
 - ~~Testare casi limite, muovendo lo 0 tra entrate, costi fissi e risparmi.~~
 - Valutare i pesi del calcolo del profilo di rischio
 - ~~Dare spiegazioni sulle varie allocazioni es.lo stipendio è considerato nei risparmi, perché il surplus è allocato in un certo modo ecc.~~
-- Fare un modulo per suggerire degli strumenti finanziari da usare per i vari pilastri. Es.conti remunerati, obbligazioni statali, ETF azionari ecc.
+- ~~Fare un modulo per suggerire degli strumenti finanziari da usare per i vari pilastri. Es.conti remunerati, obbligazioni statali, ETF azionari ecc.~~
 - migliorare interfaccia grafica
