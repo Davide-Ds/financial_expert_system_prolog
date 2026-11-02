@@ -2,12 +2,15 @@
 :- use_module(inference_engine).
 :- use_module(knowledge_base).
 :- use_module(explanation).
+:- use_module(financial_instruments, [offer_personalized_instruments/0]).
+
 
 
 % =========================================================
 % MAIN
 % =========================================================
-main :- reset_system, banner, collect_inputs, infer, result, explanation_menu.
+main :- reset_system, banner, collect_inputs, infer, result,
+        offer_personalized_instruments, explanation_menu.
 
 banner :- nl, writeln('=== FINANCIAL EXPERT SYSTEM ==='),
           writeln('Educational Prolog expert system; not financial advice.'), nl.
@@ -138,7 +141,8 @@ result :- get_fact(financial_resilience, FinancialResilience),
           format('Pillar 2 emergency fund:     EUR ~2f (recommended target ~2f)~n', [Allocation2, Target2]),
           format('Pillar 3 future goals:       EUR ~2f (recommended target ~2f)~n', [Allocation3, Target3]),
           format('Pillar 4 long term:          EUR ~2f~n', [Allocation4]), nl,
-          writeln('Pillar 3 goals (<=10 years):'), show_goals, show_monthly_allocation.
+          writeln('Pillar 3 goals (<=10 years):'), show_goals, 
+          show_monthly_allocation.
 
 show_goals :- get_fact(goals,Goals),
               (Goals = [] -> writeln('  None.') ;
